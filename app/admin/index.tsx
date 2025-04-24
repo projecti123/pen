@@ -3,9 +3,9 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, ActivityIn
 import { Card } from '../../components/ui/Card';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
-import { LineChart } from 'react-native-chart-kit';
 import { useRouter } from 'expo-router';
 import { colors } from '@/constants/colors';
+import { LineChart } from 'react-native-gifted-charts';
 import { 
   Users, BookOpen, DollarSign, TrendingUp, Bell, FileText, 
   AlertTriangle, CreditCard, ArrowRight, Home, Settings, 
@@ -121,6 +121,19 @@ export default function AdminDashboard() {
     }
   ];
 
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading dashboard...</Text>
+      </View>
+    );
+  }
+
+  const chartData = Array.from({ length: 6 }, (_, index) => ({
+    value: Math.floor(Math.random() * 100),
+    label: `Week ${index + 1}`,
+  }));
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -139,38 +152,34 @@ export default function AdminDashboard() {
         </View>
       </View>
       
-      {isLoading ? (
-        <ActivityIndicator style={styles.loader} color={colors.primary} />
-      ) : (
-        <View style={styles.statsGrid}>
-          <Card style={styles.statsCard}>
-            <View style={styles.cardIcon}>
-              <Users size={24} color={colors.primary} />
-            </View>
-            <Text style={styles.cardTitle}>Total Users</Text>
-            <Text style={styles.cardValue}>{stats?.users || 0}</Text>
-            <Text style={styles.cardTrend}>↑ 12% this month</Text>
-          </Card>
-          
-          <Card style={styles.statsCard}>
-            <View style={[styles.cardIcon, { backgroundColor: colors.success + '20' }]}>
-              <BookOpen size={24} color={colors.success} />
-            </View>
-            <Text style={styles.cardTitle}>Total Notes</Text>
-            <Text style={styles.cardValue}>{stats?.notes || 0}</Text>
-            <Text style={styles.cardTrend}>↑ 8% this month</Text>
-          </Card>
-          
-          <Card style={styles.statsCard}>
-            <View style={[styles.cardIcon, { backgroundColor: colors.warning + '20' }]}>
-              <DollarSign size={24} color={colors.warning} />
-            </View>
-            <Text style={styles.cardTitle}>Ad Revenue</Text>
-            <Text style={styles.cardValue}>₹{(stats?.ads || 0) * 0.5}</Text>
-            <Text style={styles.cardTrend}>↑ 15% this month</Text>
-          </Card>
-        </View>
-      )}
+      <View style={styles.statsGrid}>
+        <Card style={styles.statsCard}>
+          <View style={styles.cardIcon}>
+            <Users size={24} color={colors.primary} />
+          </View>
+          <Text style={styles.cardTitle}>Total Users</Text>
+          <Text style={styles.cardValue}>{stats?.users || 0}</Text>
+          <Text style={styles.cardTrend}>↑ 12% this month</Text>
+        </Card>
+        
+        <Card style={styles.statsCard}>
+          <View style={[styles.cardIcon, { backgroundColor: colors.success + '20' }]}>
+            <BookOpen size={24} color={colors.success} />
+          </View>
+          <Text style={styles.cardTitle}>Total Notes</Text>
+          <Text style={styles.cardValue}>{stats?.notes || 0}</Text>
+          <Text style={styles.cardTrend}>↑ 8% this month</Text>
+        </Card>
+        
+        <Card style={styles.statsCard}>
+          <View style={[styles.cardIcon, { backgroundColor: colors.warning + '20' }]}>
+            <DollarSign size={24} color={colors.warning} />
+          </View>
+          <Text style={styles.cardTitle}>Ad Revenue</Text>
+          <Text style={styles.cardValue}>₹{(stats?.ads || 0) * 0.5}</Text>
+          <Text style={styles.cardTrend}>↑ 15% this month</Text>
+        </Card>
+      </View>
 
       <View style={styles.charts}>
         <Card style={styles.chartCard}>
@@ -188,32 +197,11 @@ export default function AdminDashboard() {
             </TouchableOpacity>
           </View>
           <LineChart
-            data={{
-              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-              datasets: [{
-                data: [20, 45, 78, 100, 143, 198]
-              }]
-            }}
-            width={600}
-            height={220}
-            chartConfig={{
-              backgroundColor: colors.card,
-              backgroundGradientFrom: colors.card,
-              backgroundGradientTo: colors.card,
-              decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-              labelColor: () => colors.text,
-              style: {
-                borderRadius: 16
-              },
-              propsForDots: {
-                r: '6',
-                strokeWidth: '2',
-                stroke: colors.primary
-              }
-            }}
-            bezier
-            style={styles.chart}
+            data={chartData}
+            width={300}
+            height={200}
+            spacing={40}
+            color={colors.primary}
           />
         </Card>
       </View>
@@ -444,5 +432,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.primary,
     fontWeight: '500',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

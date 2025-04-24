@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Dimensions } fro
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { colors } from '@/constants/colors';
-import { LineChart, BarChart } from 'react-native-chart-kit';
+import { LineChart, BarChart } from 'react-native-gifted-charts';
 
 type AnalyticsData = {
   userGrowth: number[];
@@ -62,25 +62,38 @@ export default function AdminAnalytics() {
     topSubjects: data?.topSubjects || []
   };
 
-  const chartConfig = {
-    backgroundColor: colors.card,
-    backgroundGradientFrom: colors.card,
-    backgroundGradientTo: colors.card,
-    decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    style: {
-      borderRadius: 16
-    },
-    propsForDots: {
-      r: '6',
-      strokeWidth: '2',
-      stroke: colors.primary
-    }
-  };
-
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
   const screenWidth = Dimensions.get('window').width - 40; // 40 for padding
+
+  const lineData = safeData.userGrowth.map((value, index) => ({
+    value,
+    dataPointText: value.toString(),
+    label: months[index],
+  }));
+
+  const barData = safeData.noteUploads.map((value, index) => ({
+    value,
+    frontColor: colors.primary,
+    label: months[index],
+  }));
+
+  const adViewsData = safeData.adViews.map((value, index) => ({
+    value,
+    dataPointText: value.toString(),
+    label: months[index],
+  }));
+
+  const earningsData = safeData.earnings.map((value, index) => ({
+    value,
+    dataPointText: `$${value}`,
+    label: months[index],
+  }));
+
+  const topSubjectsData = safeData.topSubjects.map((subject) => ({
+    value: subject.count,
+    frontColor: colors.primary,
+    label: subject.subject.slice(0, 10),
+  }));
 
   return (
     <ScrollView style={styles.container}>
@@ -94,35 +107,29 @@ export default function AdminAnalytics() {
           <View style={styles.chartCard}>
             <Text style={styles.chartTitle}>User Growth</Text>
             <LineChart
-              data={{
-                labels: months,
-                datasets: [{
-                  data: safeData.userGrowth
-                }]
-              }}
+              data={lineData}
               width={screenWidth}
               height={220}
-              chartConfig={chartConfig}
-              bezier
-              style={styles.chart}
+              spacing={40}
+              color={colors.primary}
             />
           </View>
 
           {/* Note Uploads Chart */}
           <View style={styles.chartCard}>
             <Text style={styles.chartTitle}>Note Uploads</Text>
-            <LineChart
-              data={{
-                labels: months,
-                datasets: [{
-                  data: safeData.noteUploads
-                }]
-              }}
+            <BarChart
+              data={barData}
               width={screenWidth}
               height={220}
-              chartConfig={chartConfig}
-              bezier
-              style={styles.chart}
+              spacing={40}
+              initialSpacing={20}
+              barWidth={20}
+              hideRules
+              xAxisThickness={1}
+              yAxisThickness={1}
+              yAxisTextStyle={{ color: colors.text }}
+              xAxisLabelTextStyle={{ color: colors.text }}
             />
           </View>
 
@@ -130,17 +137,11 @@ export default function AdminAnalytics() {
           <View style={styles.chartCard}>
             <Text style={styles.chartTitle}>Ad Views</Text>
             <LineChart
-              data={{
-                labels: months,
-                datasets: [{
-                  data: safeData.adViews
-                }]
-              }}
+              data={adViewsData}
               width={screenWidth}
               height={220}
-              chartConfig={chartConfig}
-              bezier
-              style={styles.chart}
+              spacing={40}
+              color={colors.primary}
             />
           </View>
 
@@ -148,17 +149,11 @@ export default function AdminAnalytics() {
           <View style={styles.chartCard}>
             <Text style={styles.chartTitle}>Earnings</Text>
             <LineChart
-              data={{
-                labels: months,
-                datasets: [{
-                  data: safeData.earnings
-                }]
-              }}
+              data={earningsData}
               width={screenWidth}
               height={220}
-              chartConfig={chartConfig}
-              bezier
-              style={styles.chart}
+              spacing={40}
+              color={colors.primary}
             />
           </View>
 
@@ -166,19 +161,17 @@ export default function AdminAnalytics() {
           <View style={styles.chartCard}>
             <Text style={styles.chartTitle}>Top Subjects</Text>
             <BarChart
-              data={{
-                labels: safeData.topSubjects.map(s => s.subject.slice(0, 10)),
-                datasets: [{
-                  data: safeData.topSubjects.map(s => s.count)
-                }]
-              }}
+              data={topSubjectsData}
               width={screenWidth}
               height={220}
-              chartConfig={chartConfig}
-              verticalLabelRotation={30}
-              style={styles.chart}
-              yAxisLabel=""
-              yAxisSuffix=""
+              spacing={40}
+              initialSpacing={20}
+              barWidth={20}
+              hideRules
+              xAxisThickness={1}
+              yAxisThickness={1}
+              yAxisTextStyle={{ color: colors.text }}
+              xAxisLabelTextStyle={{ color: colors.text }}
             />
           </View>
         </View>
@@ -216,9 +209,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 16,
     color: colors.text,
-  },
-  chart: {
-    marginVertical: 8,
-    borderRadius: 16,
   },
 });
