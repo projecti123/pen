@@ -33,13 +33,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.pentalk.app"
+    namespace 'com.pentalk.app'
     defaultConfig {
-        applicationId "com.pentalk.app"
+        applicationId 'com.pentalk.app'
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     splits {
