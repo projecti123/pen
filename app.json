@@ -38,9 +38,6 @@
       ],
       "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
     },
-    "ios": {
-      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"
-    },
     "plugins": [
       "expo-router",
       [
@@ -51,15 +48,18 @@
         }
       ],
       [
-        "react-native-google-mobile-ads",
+        "expo-build-properties",
         {
-          "android": "ca-app-pub-3940256099942544~3347511713",
-          "ios": "ca-app-pub-3940256099942544~1458002511"
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
         }
       ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
+    ]
   }
 }
