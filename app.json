@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "PenTalk",
+    "slug": "pentalk",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "pentalk",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pentalk.app",
+      "buildNumber": "1",
+      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow PenTalk to access your photos to upload profile pictures and share images.",
+        "NSCameraUsageDescription": "Allow PenTalk to access your camera to take photos for your profile.",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+      }
+    },
+    "android": {
+      "package": "com.pentalk.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
+    },
+    "ios": {
+      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow PenTalk to access your photos.",
+          "cameraPermission": "Allow PenTalk to access your camera."
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "android": "ca-app-pub-3940256099942544~3347511713",
+          "ios": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

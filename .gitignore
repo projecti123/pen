@@ -1,0 +1,70 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.env.*
+.env
+
+# macOS
+.DS_Store
+*.pem
+
+# Build
+build/
+android/app/build/
+ios/build/
+
+# Cache
+.cache/
+.eslintcache
+.npm
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# local env files
+
+.env*.local
+
+# typescript
+*.tsbuildinfo
+.vercel
+
+# App signing
+pentalk.keystore
+credentials/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.cer
+
