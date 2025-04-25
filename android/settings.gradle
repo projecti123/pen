@@ -1,11 +1,20 @@
+def getNodeCommand() {
+    def nodeCommand = "node"
+    if (new File("/opt/homebrew/opt/node@20/bin/node").exists()) {
+        nodeCommand = "/opt/homebrew/opt/node@20/bin/node"
+    }
+    return nodeCommand
+}
+
+settings.ext.nodeCommand = getNodeCommand()
+
 pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
-    ext.nodeCommand = new File("/opt/homebrew/opt/node@20/bin/node").exists() ? "/opt/homebrew/opt/node@20/bin/node" : "node"
-    includeBuild(new File([ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
+    includeBuild(new File([settings.ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
 }
 plugins { id("com.facebook.react.settings") }
 
@@ -14,7 +23,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
     ex.autolinkLibrariesFromCommand()
   } else {
     def command = [
-      ext.nodeCommand,
+      settings.ext.nodeCommand,
       '--no-warnings',
       '--eval',
       'require(require.resolve(\'expo-modules-autolinking\', { paths: [require.resolve(\'expo/package.json\')] }))(process.argv.slice(1))',
@@ -32,12 +41,12 @@ rootProject.name = 'PenTalk'
 dependencyResolutionManagement {
   versionCatalogs {
     reactAndroidLibs {
-      from(files(new File([ext.nodeCommand, "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../gradle/libs.versions.toml")))
+      from(files(new File([settings.ext.nodeCommand, "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../gradle/libs.versions.toml")))
     }
   }
 }
 
-apply from: new File([ext.nodeCommand, "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle");
+apply from: new File([settings.ext.nodeCommand, "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle");
 useExpoModules()
 
 include ':app'
