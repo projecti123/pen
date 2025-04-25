@@ -6,49 +6,22 @@ pluginManagement {
     }
 }
 
-def getNodeCommand() {
-    def nodeCommand = "node"
-    if (new File("/opt/homebrew/opt/node@20/bin/node").exists()) {
-        nodeCommand = "/opt/homebrew/opt/node@20/bin/node"
-    }
-    return nodeCommand
-}
-
-settings.ext.nodeCommand = getNodeCommand()
-
-includeBuild(new File([settings.ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
-plugins { id("com.facebook.react.settings") }
-
-extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
-  if (System.getenv('EXPO_USE_COMMUNITY_AUTOLINKING') == '1') {
-    ex.autolinkLibrariesFromCommand()
-  } else {
-    def command = [
-      settings.ext.nodeCommand,
-      '--no-warnings',
-      '--eval',
-      'require(require.resolve(\'expo-modules-autolinking\', { paths: [require.resolve(\'expo/package.json\')] }))(process.argv.slice(1))',
-      'react-native-config',
-      '--json',
-      '--platform',
-      'android'
-    ].toList()
-    ex.autolinkLibrariesFromCommand(command)
-  }
-}
-
 rootProject.name = 'PenTalk'
 
-dependencyResolutionManagement {
-  versionCatalogs {
-    reactAndroidLibs {
-      from(files(new File([settings.ext.nodeCommand, "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../gradle/libs.versions.toml")))
-    }
-  }
-}
-
-apply from: new File([settings.ext.nodeCommand, "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle");
-useExpoModules()
-
 include ':app'
-includeBuild(new File([ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile())
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            // All of React Native (JS, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+    }
+}
