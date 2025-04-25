@@ -27,6 +27,7 @@
     "android": {
       "package": "com.pentalk.app",
       "versionCode": 1,
+      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
