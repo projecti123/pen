@@ -24,6 +24,15 @@
       "android": {
         "buildType": "app-bundle"
       }
+    },
+    "androidapk": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "KOTLIN_VERSION": "2.1.0"
+      }
     }
   },
   "submit": {
