@@ -39,3 +39,5 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
+
+nodeExecutableAndArgs = ["/opt/homebrew/opt/node@20/bin/node"]
