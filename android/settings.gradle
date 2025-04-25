@@ -1,17 +1,10 @@
-ext {
-    if (new File("/opt/homebrew/opt/node@20/bin/node").exists()) {
-        nodeCommand = "/opt/homebrew/opt/node@20/bin/node"
-    } else {
-        nodeCommand = "node"
-    }
-}
-
 pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
+    ext.nodeCommand = new File("/opt/homebrew/opt/node@20/bin/node").exists() ? "/opt/homebrew/opt/node@20/bin/node" : "node"
     includeBuild(new File([ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
 }
 plugins { id("com.facebook.react.settings") }
