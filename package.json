@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --tunnel",
+    "start": "expo start --dev-client",
     "start-web": "expo start --web --tunnel",
     "start-web-dev": "DEBUG=expo* expo start --web --tunnel",
     "generate-icons": "ts-node scripts/generate-icons.ts",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/cli-platform-android": "^18.0.0",
     "@react-navigation/native": "^7.0.0",
     "@supabase/supabase-js": "^2.49.4",
     "@tanstack/react-query": "^5.74.4",
@@ -42,7 +43,7 @@
     "nativewind": "^4.1.23",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native": "0.76.9",
+    "react-native": "^0.76.9",
     "react-native-blob-util": "^0.21.2",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-gifted-charts": "^1.4.60",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@expo/cli": "^0.22.26",
     "@expo/image-utils": "^0.6.5",
     "@expo/ngrok": "^4.1.0",
     "@react-native-community/cli": "^18.0.0",
