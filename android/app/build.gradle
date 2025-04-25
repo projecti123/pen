@@ -93,7 +93,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
-        manifestPlaceholders = [admobAppId: "ca-app-pub-3940256099942544~3347511713"]
     }
     signingConfigs {
         debug {
@@ -148,7 +147,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-ads:22.6.0'
+    // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
