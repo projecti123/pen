@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 def getNodeCommand() {
     def nodeCommand = "node"
     if (new File("/opt/homebrew/opt/node@20/bin/node").exists()) {
@@ -8,14 +16,7 @@ def getNodeCommand() {
 
 settings.ext.nodeCommand = getNodeCommand()
 
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    includeBuild(new File([settings.ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
-}
+includeBuild(new File([settings.ext.nodeCommand, "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().toString())
 plugins { id("com.facebook.react.settings") }
 
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
