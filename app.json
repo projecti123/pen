@@ -39,6 +39,13 @@
       ]
     },
     "plugins": [
+      [
+        "react-native-google-mobile-ads",
+        {
+          "android_app_id": "ca-app-pub-3940256099942544~3347511713",
+          "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ],
       "expo-router",
       [
         "expo-image-picker",
@@ -72,10 +79,7 @@
         }
       ]
     ],
-    "react-native-google-mobile-ads": {
-      "android_app_id": "ca-app-pub-3940256099942544~3347511713",
-      "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
-    },
+
     "extra": {
       "router": {
         "origin": false
